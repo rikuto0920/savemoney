@@ -1,0 +1,17 @@
+<div id="like-button-<%= student.id %>">
+  <% if user_signed_in? %>
+    <% if current_user.already_liked?(student) %>
+      <%= link_to "❤️ #{student.likes.count}",
+          student_like_path(student, current_user.likes.find_by(student_id: student.id)),
+          data: { turbo_method: :delete },
+          class: "like-link" %>
+    <% else %>
+      <%= link_to "🤍 #{student.likes.count}",
+          student_likes_path(student),
+          data: { turbo_method: :post },
+          class: "like-link" %>
+    <% end %>
+  <% else %>
+    🤍 <%= student.likes.count %>
+  <% end %>
+</div>

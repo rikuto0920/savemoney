@@ -1,0 +1,56 @@
+<h2>出品一覧</h2>
+
+<%= form_with url: students_path, method: :get, local: true do %>
+  <h3>投稿を検索</h3>
+  <%= text_field_tag :search, params[:search], placeholder: "商品名や大学名で検索" %>
+
+  <h4>タグで検索</h4>
+  <% Tag.all.each do |t| %>
+    <li>
+      <%= check_box_tag "tag_ids[#{t.name}]", "1", params.dig(:tag_ids, t.name) == "1" %>
+      <%= label_tag "tag_ids_#{t.name}", t.name %>
+    </li>
+  <% end %>
+
+  <%= submit_tag '検索' %>
+<% end %>
+
+<%= link_to "新規投稿へ", new_student_path %>
+
+<div class="students-container">
+  <% if user_signed_in? %>
+    <%= link_to "マイページへ", user_path(current_user.id) %>
+  <% end %>
+
+  <% @students.each do |t| %>
+    <div class="student">
+      <%= image_tag t.image_url, size: "250x200" if t.image? %>
+      <%= link_to "マイページへ", user_path(t.user.id) %>
+      <%= link_to "詳細へ", student_path(t) %>
+      <%= link_to "編集する", edit_student_path(t) %>
+      <%= button_to "削除する", student_path(t), method: :delete %>      
+      <%= t.user.email %>
+      <%= t.name %>
+      <%= t.daigaku %>
+      <%= t.point %>
+
+    <% if user_signed_in? %>
+  <% like = current_user.likes.find_by(student_id: t.id) %>
+
+  <% if like.present? %>
+    <%= button_to student_like_path(t, like), method: :delete, form: { data: { turbo_confirm: "いいねを取り消しますか？" } } do %>
+      ❤️ <%= t.likes.count %>
+    <% end %>
+  <% else %>
+    <%= button_to student_likes_path(t), method: :post do %>
+      🤍 <%= t.likes.count %>
+    <% end %>
+  <% end %>
+<% else %>
+  🤍 <%= t.likes.count %>
+<% end %>
+
+
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,56 @@
+
+<p>ニックネーム : <%= @user.name %></p>      <%= image_tag @user.prof_url, size: "250x200" if @user.prof? %> 
+<p>メールアドレス : <%= @user.email %></p>     
+<p>プロフィール : <%= @user.profile %></p>
+
+
+<% if current_user.id == @user.id %>
+  <%= link_to "編集する", edit_user_registration_path %>
+<% end %>
+
+<h4>投稿一覧</h4>
+<% @user.students.each do |t| %>
+  <%= t.name %>
+   <%= image_tag t.image_url, size: "250x200" if t.image? %>
+
+<% end %>
+
+<h4>ユーザー詳細ページ</h4>
+
+<div class="user-in">
+<h3><%= @user.name %></h3>
+
+<% if @user.id == current_user.id %>
+    <%= @msg %>
+<% else %>
+    <% if @isRoom == true %>
+        <p><%= link_to 'DMへ', room_path(@roomId) %></p>
+    <% else %>
+        <%= form_for @room do |f| %>
+            <%= fields_for @entry do |e|%>
+                <% e.hidden_field :user_id, value: @user.id %>
+            <% end %>
+        <%= f.submit "DMを開始する"%>
+        <% end %>
+    <% end %>
+<% end %>
+</div>
+
+
+<%= link_to "ユーザー一覧に戻る", users_path %>
+
+
+
+<style>
+.user-in{
+    width:300px;
+    padding:10px;
+    margin:10px;
+    text-align:center;
+    border:1px solid darkgray;
+    background-color:gainsboro;
+}
+</style>
+
+
+<%= link_to "出品一覧に戻る", students_path %>
