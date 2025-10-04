@@ -10,4 +10,16 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :profile, :prof])
   end
 
+  # ログイン後のリダイレクト先を変更
+  def after_sign_in_path_for(resource)
+    students_path  # ログイン後に飛ばしたいパス
+  end
+
+  def after_sign_out_path_for(resource_or_scope)
+    root_path
+  end
+
+  def after_sign_out_path_for(resource_or_scope)
+    students_path  # ← トップページに戻す場合
+  end
 end

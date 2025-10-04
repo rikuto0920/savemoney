@@ -1,54 +1,98 @@
+<div class="container product-page">
+  <!-- パンくず -->
+  <nav class="breadcrumb">
+    <%= link_to "出品一覧", students_path %> / <span><%= @student.name %></span>
+  </nav>
 
-<h3>詳細</h3>
-<div class="student">
-  <p><%= @student.point %></p>
-  <p><%= @student.name %></p>
-  <p><%= @student.created_at %></p>
-    <% if user_signed_in? %>
-     <% if current_user.already_liked?(@student) %>
-        <%= link_to student_like_path(id: @student.id, student_id: @student.id), data: { turbo_method: :delete } do %>
-          <i class="fa-regular fa-heart"></i><%= @student.likes.count %>
-        <% end %>
-     <% else %>
-        <%= link_to student_likes_path(id: @student.id, student_id: @student.id), data: { turbo_method: :post }  do %>
-            <i class="fa-regular fa-heart"></i><%= @student.likes.count %>
-        <% end %>
-     <% end %>
-<% else %>
-    <i class="fa-regular fa-heart"></i><%= @student.likes.count %>
-<% end %>
-  <%= link_to "編集する", edit_student_path(@student.id) %>
-</div>
-
-<% @student.tags.each do |tag| %>
-    <span><%= tag.name %></span>
-<% end %>
-
-<h3>いいねしたユーザー</h3>
-<% @student.liked_users.each do |user| %>
-  <li><%= user.name %></li>
-<% end %>
-
-<div class="comment-wrapper">
-  <p>コメント一覧</p>
-  <% @comments.each do |c| %>
-    <div>
-      <%= c.user.name unless c.user.blank? %>
-      <br>
-      <%= c.content %>
+  <div class="product">
+    <!-- 左：画像 -->
+    <div class="gallery">
+      <% if @student.image? %>
+        <div class="main-image">
+          <%= image_tag @student.image_url, alt: @student.name %>
+        </div>
+      <% end %>
     </div>
-      <br>
-  <% end %>
 
-  <% if user_signed_in? %>
-    <%= form_with(model: [@student, @comment], local: true) do |f| %>
-      <%= f.text_area :content %>
-      <%= button_tag type: "submit" do %>
-        <i class="far fa-comments"></i> コメントする
+    <!-- 右：情報 -->
+    <div class="meta">
+      <span class="badge"><%= @student.daigaku %></span>
+      <h1 class="title"><%= @student.name %></h1>
+      <p class="desc"><%= @student.point %></p>
+
+      <% if @student.tags.present? %>
+        <div class="chips">
+          <% @student.tags.each do |tag| %>
+            <span class="chip"><%= tag.name %></span>
+          <% end %>
+        </div>
+      <% end %>
+
+  <div class="cta">
+    <% if user_signed_in? %>
+    <% if current_user.already_liked?(@student) %>
+      <%= link_to student_like_path(id: @student.id, student_id: @student.id), method: :delete, class: "btn-like active" do %>
+        ❤️ <%= @student.likes.count %>
+      <% end %>
+    <% else %>
+      <%= link_to student_likes_path(id: @student.id, student_id: @student.id), method: :post, class: "btn-like" do %>
+        🤍 <%= @student.likes.count %>
       <% end %>
     <% end %>
+
+    <%= link_to "出品者ページへ", user_path(@student.user_id), class: "btn btn-ghost" %>
+
+    <% if current_user == @student.user %>
+      <%= link_to "編集", edit_student_path(@student), class: "btn btn-ghost" %>
+      <%= button_to "削除", student_path(@student),
+                    method: :delete,
+                    data: { confirm: "本当に削除しますか？" },
+                    class: "btn btn-danger" %>
+    <% end %>
+  <% else %>
+    <div class="like-readonly">🤍 <%= @student.likes.count %></div>
+    <%= link_to "ログインして編集", new_user_session_path, class: "btn btn-primary" %>
   <% end %>
+  </div>
+
+
+      <ul class="facts">
+        <li>出品日時：<%= @student.created_at.strftime("%Y-%m-%d %H:%M") %></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- いいねしたユーザー -->
+  <% if @student.liked_users.present? %>
+    <div class="likers-card">
+      <h3>いいねしたユーザー</h3>
+      <ul>
+        <% @student.liked_users.each do |user| %>
+          <li><%= user.name %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- コメント -->
+  <div class="comment-wrapper">
+    <h3>コメント一覧</h3>
+    <% @comments.each do |c| %>
+      <div class="comment">
+        <div class="comment-meta"><%= c.user&.name %></div>
+        <div class="comment-body"><%= simple_format(c.content) %></div>
+      </div>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <%= form_with(model: [@student, @comment], local: true, class: "comment-form") do |f| %>
+        <%= f.text_area :content, placeholder: "コメントを入力", rows: 3 %>
+        <%= f.submit "コメントする", class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="mt-20">
+  <%= link_to "出品一覧に戻る", students_path, class: "back-to-list" %>
+  </div>
 </div>
-
-
-<%= link_to "出品一覧に戻る", students_path %>

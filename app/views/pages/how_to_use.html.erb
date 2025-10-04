@@ -1,0 +1,89 @@
+<div class="container howto">
+  <!-- Hero -->
+  <section class="howto-hero">
+    <h1>ご利用方法</h1>
+    <p class="lead">Gakusei Tradeの基本的な流れと、安全に使うためのポイントをまとめました。</p>
+    <div class="hero-actions">
+      <% unless user_signed_in? %>
+        <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary" %>
+        <%= link_to "ログイン", new_user_session_path, class: "btn btn-ghost" %>
+      <% else %>
+        <%= link_to "新規投稿", new_student_path, class: "btn btn-primary" %>
+        <%= link_to "出品一覧へ", students_path, class: "btn btn-ghost" %>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Steps -->
+  <section class="steps">
+    <h2 class="section-title">基本の5ステップ</h2>
+    <div class="step-grid">
+      <div class="step-card">
+        <div class="num">1</div>
+        <h3>アカウント作成</h3>
+        <p>「新規登録」からメールアドレスとパスワードを設定。プロフィールも整えると取引がスムーズに。</p>
+      </div>
+      <div class="step-card">
+        <div class="num">2</div>
+        <h3>出品 or 探す</h3>
+        <p>「新規投稿」でアイテムを登録。トップの検索やタグから欲しいアイテムを探すこともできます。</p>
+      </div>
+      <div class="step-card">
+        <div class="num">3</div>
+        <h3>詳細を確認</h3>
+        <p>詳細ページで状態・受け渡し方法を確認。気になるものは <strong>いいね</strong> しておくと後で見返せます。</p>
+      </div>
+      <div class="step-card">
+        <div class="num">4</div>
+        <h3>やり取り</h3>
+        <p>コメントやDMで交換商品の交渉や交換の場所と日時を確認してください。</p>
+      </div>
+      <div class="step-card">
+        <div class="num">5</div>
+        <h3>受け渡し</h3>
+        <p>安全な学内の場所・時間を選びましょう。取引後は次の人のために出品を更新・削除してください。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tips -->
+  <section class="tips">
+    <h2 class="section-title">安全に使うためのヒント</h2>
+    <ul class="tips-list">
+      <li><span>🏫</span> 学内の人通りが多い場所・明るい時間帯で受け渡し</li>
+      <li><span>🪪</span> 個人情報はむやみに共有しない（住所・電話番号など）</li>
+      <li><span>📸</span> 画像は実物・傷など気になる箇所をわかるように投稿</li>
+    </ul>
+  </section>
+
+  <!-- FAQ（CSSだけで開閉） -->
+  <section class="faq">
+    <h2 class="section-title">よくある質問</h2>
+
+    <details class="qa">
+      <summary>会員登録しないと使えませんか？</summary>
+      <div class="a">閲覧だけなら可能ですが、<strong>出品・いいね・コメント・DM</strong> には会員登録が必要です。</div>
+    </details>
+
+    <details class="qa">
+      <summary>画像は必須ですか？</summary>
+      <div class="a">必須ではありませんが、実物写真があると反応が良くなります。状態がわかる写真がおすすめ。</div>
+    </details>
+
+    <details class="qa">
+      <summary>取引でトラブルが起きたら？</summary>
+      <div class="a">相手ユーザーとのやり取りを控えた上で、危険を感じた場合はご利用を中止してください。</div>
+    </details>
+  </section>
+
+  <!-- CTA -->
+  <section class="howto-cta">
+    <% if user_signed_in? %>
+      <%= link_to "さっそく出品する", new_student_path, class: "btn btn-primary" %>
+      <%= link_to "出品一覧をみる", students_path, class: "btn btn-ghost" %>
+    <% else %>
+      <%= link_to "新規登録して始める", new_user_registration_path, class: "btn btn-primary" %>
+      <%= link_to "ログイン", new_user_session_path, class: "btn btn-ghost" %>
+    <% end %>
+  </section>
+</div>

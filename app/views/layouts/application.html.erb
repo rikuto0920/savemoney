@@ -7,23 +7,62 @@
     <%= csp_meta_tag %>
     <script src="https://kit.fontawesome.com/7cd6adb2eb.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>  
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
   </head>
 
   <body>
- <header>
-  <h1>大学生の物々交換サイト</h1>
-  <div class="header-list">
-   <ul>
-    <% if user_signed_in? %>
-     <li><%= button_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
-    <% else %>
-     <li><%= link_to "新規登録", new_user_registration_path %></li>
-     <li><%= link_to "ログイン", new_user_session_path %></li>
-    <% end %>
-   </ul>
+ <header class="site-header">
+  <div class="container header-inner">
+    <h1 class="site-logo">
+      <%= link_to "Gakusei Trade", root_path %>
+    </h1>
+
+    <nav class="site-nav">
+  <div class="nav-right">
+    <!-- 常時表示のボタン（未ログイン時はこれを見せる） -->
+    <div class="nav-actions">
+      <% if user_signed_in? %>
+        <%= link_to "マイページ", user_path(current_user.id), class: "btn-link" %>
+        <%= link_to "ログアウト", destroy_user_session_path,
+              method: :delete, data: { confirm: "ログアウトしますか？" },
+              class: "btn-link logout-link" %>
+      <% else %>
+        <%= link_to "新規登録", new_user_registration_path, class: "btn-link" %>
+        <%= link_to "ログイン", new_user_session_path, class: "btn-link" %>
+      <% end %>
+    </div>
+
+    <!-- ハンバーガー（中に「新規投稿」を入れる） -->
+    <div class="nav-menu">
+  <input type="checkbox" id="nav-toggle" />
+  <label for="nav-toggle" class="hamburger" aria-label="メニューを開く/閉じる">
+    <span></span><span></span><span></span>
+  </label>
+
+  <div class="menu-panel" role="menu" aria-label="サイトメニュー">
+    <ul class="menu-list">
+      <li>
+        <%= link_to new_student_path, class: "menu-item", role: "menuitem" do %>
+          <i class="fa-solid fa-square-plus" aria-hidden="true"></i>
+          <span>新規投稿</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to how_to_use_path, class: "menu-item", role: "menuitem" do %>
+          <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+          <span>ご利用方法</span>
+        <% end %>
+      </li>
+    </ul>
   </div>
- </header>
+</div>
+
+  </div>
+</nav>
+
+  </div>
+</header>
+
  <main>
   <%= yield %>
  </main>

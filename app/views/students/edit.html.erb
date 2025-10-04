@@ -1,8 +1,54 @@
-<%= form_for @student do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
+<div class="container new-post">
+  <h2>投稿を編集</h2>
 
-  <%= f.label :point %>
-  <%= f.text_field :point %>
-  <%= f.submit "編集する" %>
-<% end %>
+  <div class="form-card">
+    <%= form_for @student, html: { class: "post-form" } do |f| %>
+
+      <div class="form-row">
+        <%= f.label :name, "タイトル" %>
+        <%= f.text_field :name, placeholder: "例）SPI参考書" %>
+      </div>
+
+      <div class="form-row">
+        <%= f.label :point, "説明" %>
+        <%= f.text_area :point, rows: 3, placeholder: "状態や受け渡し方法など" %>
+      </div>
+
+      <%# 画像も編集したい場合（なければこのブロック削除OK） %>
+      <% if @student.respond_to?(:image) %>
+        <div class="form-row">
+          <%= f.label :image, "画像" %>
+          <div class="image-uploader">
+            <% if @student.try(:image?) %>
+              <div class="image-preview current">
+                <%= image_tag @student.image_url, alt: @student.name %>
+              </div>
+            <% end %>
+            <%= f.file_field :image, accept: "image/*", id: "post-image" %>
+            <div class="image-preview" id="image-preview"></div>
+            <small class="hint">画像を選び直すとプレビューが表示されます</small>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="form-actions">
+        <%= f.submit "更新する", class: "btn btn-primary" %>
+        <%= link_to "キャンセル", student_path(@student), class: "btn btn-ghost" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const input = document.getElementById('post-image');
+    const preview = document.getElementById('image-preview');
+    if(!input || !preview) return;
+    input.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if(!file){ preview.innerHTML=''; return; }
+      const url = URL.createObjectURL(file);
+      preview.innerHTML = `<img src="${url}" alt="preview">`;
+    });
+  })();
+</script>

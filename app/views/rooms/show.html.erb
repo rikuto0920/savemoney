@@ -1,42 +1,63 @@
-<div class="user-in">
-  <% @entries.each do |e| %>
-    <h3><strong><a href="/users/<%= e.user.id %>"><%= e.user.name %></a></strong></h3>
-  <% end %>
-  <p>2人のDM</p>
-</div>
+<div class="dm">
+  <!-- ヘッダー：参加者名 -->
+  <header class="dm-header">
+    <div class="title">
+      <strong>
+        <%= @entries.map { |e| e.user.name }.join(" と ") %>
+      </strong>
+      <span class="subtitle"><%= @entries.size %>人のDM</span>
+    </div>
+    <%= link_to "マイページへ", user_path(current_user), class: "btn btn-ghost" %>
+  </header>
 
-<div class="dmMain">
-  <% @messages.each do |m| %>
-    <strong><%= m.body %></strong><br>
-    <% if m.image.attached? %>
-      <%= image_tag m.image.variant(resize_to_limit: [300, 300]) %><br>
+  <!-- 会話スレッド -->
+  <main id="dm-scroll" class="dm-thread">
+    <% @messages.each do |m| %>
+      <% mine = (m.user == current_user) %>
+      <article class="bubble <%= mine ? 'mine' : 'theirs' %>">
+        <div class="meta">
+          <% unless mine %><span class="name"><%= m.user.name %></span><% end %>
+          <time class="time"><%= m.created_at.strftime("%Y/%m/%d %H:%M") %></time>
+        </div>
+
+        <% if m.image.attached? %>
+          <%= image_tag m.image.variant(resize_to_limit: [900, 900]), class: "img" %>
+        <% end %>
+
+        <% if m.body.present? %>
+          <p class="text"><%= simple_format(h(m.body)) %></p>
+        <% end %>
+
+        <% if mine %>
+          <div class="ops">
+            <%= button_to "削除", message_path(m), method: :delete,
+                  data: { confirm: "本当に削除しますか？" },
+                  class: "btn btn-ghost btn-small" %>
+          </div>
+        <% end %>
+      </article>
     <% end %>
-    <small><%= m.user.name %>さん</small>
-    
-    <% if m.user == current_user %>
-    <%= button_to "削除", message_path(m), method: :delete, data: { confirm: "本当に削除しますか？" }, form_class: "inline-form", class: "delete-button" %>
-  <% end %>
-<% end %>
+  </main>
 
-  <%= form_for @message, html: { multipart: true } do |f| %>
-    <%= f.text_field :body, placeholder: "メッセージを入力して下さい", size: 100 %><br>
-    <%= f.file_field :image %><br> 
-    <%= f.hidden_field :room_id, value: @room.id %><br>
-    <%= f.submit "送信する" %>
-  <% end %>
+  <!-- 送信欄 -->
+  <footer class="dm-composer">
+    <%= form_for @message, html: { multipart: true, class: "composer-form" } do |f| %>
+      <%= f.hidden_field :room_id, value: @room.id %>
+      <%= f.text_field :body, placeholder: "メッセージを入力してください", autocomplete: "off" %>
+
+      <label class="file">📎
+        <%= f.file_field :image, accept: "image/*" %>
+      </label>
+
+      <%= f.submit "送信", class: "btn btn-primary" %>
+    <% end %>
+  </footer>
 </div>
 
-  <%= link_to "マイページへ", user_path(current_user.id) %>
-
-<style>
-.user-in {
-  text-align: center;
-  border: 1px solid darkgray;
-  background-color: gainsboro;
-}
-.dmMain {
-  padding: 30px;
-  border: 1px solid darkgray;
-  background-color: gainsboro;
-}
-</style>
+<script>
+  // ページ表示時・更新時に最下部へ
+  (function(){
+    const el = document.getElementById('dm-scroll');
+    if (el) el.scrollTop = el.scrollHeight;
+  })();
+</script>

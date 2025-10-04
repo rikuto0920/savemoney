@@ -1,40 +1,63 @@
+<div class="container new-post">
+  <h2>新規投稿</h2>
 
-<h2>新規投稿ページ</h2>
-<%= form_for @student do |f| %>
+  <div class="form-card">
+    <%= form_for @student, html: { class: "post-form" } do |f| %>
 
-  <div class="field">
-    <%= f.label :題名 %>
-    <%= f.text_field :name, :size => 30 %>
+      <div class="form-row">
+        <%= f.label :name, "タイトル" %>
+        <%= f.text_field :name, size: 30, placeholder: "例）SPI 参考書 2027年度版", required: true %>
+      </div>
+
+      <div class="form-row">
+        <%= f.label :daigaku, "大学" %>
+        <%= f.text_field :daigaku, size: 30, placeholder: "例）明治大学" %>
+      </div>
+
+      <div class="form-row">
+        <%= f.label :point, "説明" %>
+        <%= f.text_area :point, rows: 3, placeholder: "状態や受け渡し方法などを記入してください" %>
+      </div>
+
+      <div class="form-row">
+        <%= f.label :image, "画像" %>
+        <div class="image-uploader">
+          <%= f.file_field :image, accept: "image/*", id: "post-image" %>
+          <div class="image-preview" id="image-preview"></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="label">タグ</span>
+        <div class="chips">
+          <%= f.collection_check_boxes(:tag_ids, Tag.all, :id, :name) do |tag| %>
+            <label class="chip">
+              <%= tag.check_box %>
+              <span><%= tag.text %></span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "投稿する", class: "btn btn-primary" %>
+        <%= link_to "ホームに戻る", students_path, class: "btn btn-ghost" %>
+      </div>
+    <% end %>
   </div>
+</div>
 
-  <div class="field">
-    <%= f.label :大学 %>
-    <%= f.text_field :daigaku, :size => 30 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :説明  %>
-    <%= f.text_area :point, :size => "30x2" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :image %>
-    <%= f.file_field :image %>
-  </div>
-
-<div class='form-group'>
-        <%= f.collection_check_boxes(:tag_ids, Tag.all, :id, :name) do |tag| %>
-            <div class='form-check'>
-                <%= tag.label class: 'form-check-label' do %>
-                    <%= tag.check_box class: 'form-check-input' %>
-                    <%= tag.text %>
-                <% end %>
-            </div>
-        <% end %>
-    </div>
-
-    
-<%= f.submit "投稿する" %>
-<% end %>
-
-<%= link_to "一覧に戻る", students_path %>
+<script>
+  // 画像プレビュー
+  (function(){
+    const input = document.getElementById('post-image');
+    const preview = document.getElementById('image-preview');
+    if(!input || !preview) return;
+    input.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if(!file){ preview.innerHTML=''; return; }
+      const url = URL.createObjectURL(file);
+      preview.innerHTML = `<img src="${url}" alt="preview">`;
+    });
+  })();
+</script>

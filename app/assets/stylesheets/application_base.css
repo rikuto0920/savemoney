@@ -1,0 +1,285 @@
+/* =========================
+   Design Tokens / Base
+========================= */
+:root{
+  --font:'Yu Gothic','メイリオ',sans-serif;
+  --bg:#fdfaf5; --text:#333; --muted:#777;
+  --brand:#2f6253;            /* タイトル/強調文字 */
+  --accent:#8cc3a7;           /* ヘッダー背景 */
+  --accent-2:#88c9b3;         /* ボタン・リンク強調 */
+  --tag:#e4f1ea; --tag-on:#a0d1c0;
+  --border:#ddd; --shadow:0 2px 8px rgba(0,0,0,.05);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;padding:0 16px}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--accent-2);text-decoration:none;transition:.2s}
+a:hover{text-decoration:underline}
+.container{max-width:1080px;margin:0 auto;padding:24px 16px}
+.section{margin-bottom:48px}
+h1,h2,h3,h4,h5{font-weight:700;color:var(--text)}
+h1{font-size:32px} h2{font-size:28px} h3{font-size:22px} h4{font-size:18px}
+
+/* =========================
+   Utilities
+========================= */
+.text-center{text-align:center}
+.mt-20{margin-top:20px}.mb-20{margin-bottom:20px}
+.mt-40{margin-top:40px}.mb-40{margin-bottom:40px}
+.shadow{box-shadow:var(--shadow)} .rounded{border-radius:12px}
+
+/* =========================
+   Header / Global Nav
+========================= */
+.site-header{
+  position:sticky;top:0;z-index:1000;background:var(--accent);color:#fff;
+  padding:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.06);width:100%
+}
+.header-inner{
+  max-width:1080px;margin:0 auto;padding:0 16px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px
+}
+.site-logo a{color:#fff;font-size:22px;font-weight:800;letter-spacing:.02em;text-decoration:none}
+.site-nav ul{display:flex;gap:24px;margin:0;padding:0}
+.site-nav li{list-style:none}
+.site-nav a{color:#fff;text-decoration:none;font-weight:600;padding:8px 12px;border-radius:10px;transition:background-color .2s,transform .15s}
+.site-nav a:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
+.site-nav a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* 透明ボタン（新規登録/ログイン） */
+.btn-pill{display:inline-block;padding:8px 16px;border-radius:999px;font-weight:700;line-height:1;transition:background-color .2s,transform .15s}
+.ghost-btn{background:transparent;color:#fff;border:none}
+.ghost-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
+
+/* ハンバーガー */
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-menu{position:relative}
+#nav-toggle{display:none}
+.hamburger{display:inline-flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:28px;cursor:pointer;padding:4px}
+.hamburger span{display:block;height:2px;width:100%;background:#fff;border-radius:2px}
+
+/* =========================
+   Menu Panel (重複解消版)
+   - 既存の .menu-panel 定義を統合
+========================= */
+.menu-panel{
+  position:absolute; right:0; top:48px;
+  width:260px; background:#fff; color:#333;
+  border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.16);
+  padding:8px; opacity:0; transform:translateY(-6px) scale(.98);
+  pointer-events:none; transition:opacity .18s ease, transform .18s ease;
+}
+#nav-toggle:checked ~ .menu-panel{opacity:1; transform:translateY(0) scale(1); pointer-events:auto}
+
+/* 吹き出しの三角 */
+.menu-panel::before{
+  content:""; position:absolute; top:-8px; right:14px;
+  border:8px solid transparent; border-bottom-color:#fff;
+  filter:drop-shadow(0 -2px 2px rgba(0,0,0,.06));
+}
+
+/* リスト（既存 ul/li 互換 + 新クラス） */
+.menu-panel ul{margin:0; padding:4px; list-style:none}
+.menu-list{list-style:none; margin:0; padding:4px; display:grid; gap:6px}
+
+/* 項目 */
+.menu-panel li a,
+.menu-item{
+  display:flex; align-items:center; gap:12px;
+  padding:12px; min-height:44px; border-radius:10px;
+  color:var(--brand); text-decoration:none; background:transparent;
+  transition:background-color .15s ease, transform .12s ease;
+}
+.menu-item i{ font-size:18px; color:#7aa997 }
+.menu-panel li a:hover,
+.menu-item:hover,
+.menu-item:focus-visible{ background:#f1f6f4; outline:none; transform:translateY(-1px) }
+.menu-item:active{ transform:translateY(0) }
+
+@media (max-width:480px){ .menu-panel{ width:240px } }
+
+/* =========================
+   Forms
+========================= */
+input[type="text"],input[type="email"],input[type="password"],textarea{
+  width:100%;max-width:600px;padding:10px 15px;border:1px solid var(--border);
+  border-radius:8px;font-size:14px;margin-bottom:16px;background:#fff
+}
+label{font-size:14px;display:block;margin-bottom:6px}
+input[type="submit"],.button,button{
+  display:inline-block;padding:10px 20px;background:var(--accent-2);color:#fff;
+  font-size:14px;border:none;border-radius:30px;cursor:pointer;transition:.2s
+}
+input[type="submit"]:hover,.button:hover,button:hover{background:#90c9b8}
+
+/* Tag pills */
+.tag,form label[for^="tag_ids_"]{
+  display:inline-block;background:var(--tag);color:var(--text);font-size:13px;
+  padding:6px 12px;border-radius:20px;margin:5px 5px 5px 0;cursor:pointer;transition:.2s
+}
+.tag.active,form input[type="checkbox"]:checked+label{background:var(--tag-on);color:#fff;font-weight:700}
+
+/* =========================
+   Top list (students#index)
+========================= */
+.students-container{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:20px;max-width:1200px;margin:0 auto 60px
+}
+.student{
+  background:#fff;border-radius:16px;box-shadow:var(--shadow);
+  padding:16px;width:240px;text-align:center
+}
+.student img{border-radius:10px;object-fit:cover;margin-bottom:10px}
+.student .badge{
+  display:inline-block;background:#f1d7aa;color:#555;font-size:12px;border-radius:12px;padding:4px 8px;margin-bottom:6px
+}
+.student a{display:inline-block;margin:4px;font-size:14px;color:#00796b}
+.student a:hover{text-decoration:underline}
+.student p{margin:5px 0;font-size:14px;color:#666}
+.student .time{font-size:12px;color:#999}
+
+/* =========================
+   Detail page
+========================= */
+.product-page{max-width:900px;margin:0 auto;padding:20px}
+.product-page .breadcrumb{font-size:13px;color:#777;margin-bottom:14px}
+.product-page .breadcrumb a{color:var(--accent-2)}
+.product{
+  display:grid;grid-template-columns:1.2fr 1fr;gap:32px;background:#fff;
+  border-radius:16px;box-shadow:var(--shadow);padding:20px
+}
+.gallery .main-image img{width:100%;border-radius:12px;box-shadow:var(--shadow);background:#fff}
+.meta .badge{display:inline-block;background:#f1d7aa;color:#555;font-size:12px;border-radius:12px;padding:4px 8px;margin-bottom:8px}
+.meta .title{font-size:24px;margin:4px 0 8px}
+.meta .desc{color:#555;margin:8px 0 14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.chip{background:var(--tag);color:var(--text);font-size:12px;padding:6px 10px;border-radius:999px}
+.cta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 16px}
+.btn{display:inline-block;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:700;transition:background-color .2s,transform .15s,box-shadow .2s}
+.btn-primary{background:var(--accent-2);color:#fff}
+.btn-primary:hover{background:#90c9b8;transform:translateY(-1px)}
+.btn-ghost{background:#f6faf8;color:var(--brand)}
+.btn-ghost:hover{background:#e8f3ef;transform:translateY(-1px)}
+.btn-danger{background:#f3c7c7;color:#8b2e2e}
+.btn-danger:hover{background:#efb4b4}
+.btn-like{
+  background:#fff;border:1px solid #eee;border-radius:999px;padding:8px 14px;
+  display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-weight:700;box-shadow:0 1px 0 rgba(0,0,0,.04)
+}
+.btn-like:hover{background:#f9f9f9}
+.btn-like.active{background:#ffeef1;border-color:#ffd6de}
+.facts{margin:10px 0;padding-left:16px;color:#666;font-size:14px}
+.facts li{margin:4px 0;list-style:disc}
+.likers-card{margin-top:20px;background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:16px}
+.comment-wrapper{margin-top:20px}
+.comment{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:12px;margin-bottom:10px}
+.comment-meta{font-size:12px;color:#888;margin-bottom:6px}
+.comment-form textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:10px}
+.back-to-list{display:inline-block;margin-top:20px;color:#2f6253;font-weight:700;text-decoration:none;font-size:16px;transition:color .2s,text-decoration .2s}
+.back-to-list:hover{color:#224c40;text-decoration:underline}
+@media (max-width:900px){.product{grid-template-columns:1fr;padding:16px}}
+
+/* =========================
+   New / Edit post
+========================= */
+.new-post h2{margin:12px 0 16px}
+.form-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px;max-width:760px}
+.form-row{margin-bottom:16px}
+.form-row label,.form-row .label{display:block;font-weight:700;margin-bottom:6px;color:#444}
+.image-uploader input[type=file]{display:block;margin-bottom:10px}
+.image-preview{width:180px;height:180px;border:1px dashed #cfd7d3;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fafafa}
+.image-preview img{width:100%;height:100%;object-fit:cover}
+.image-preview.current{width:180px;height:180px;border-radius:12px;overflow:hidden;margin-bottom:10px}
+.image-preview.current img{width:100%;height:100%;object-fit:cover}
+.hint{display:block;color:#888;font-size:12px;margin-top:6px}
+.form-actions{display:flex;gap:10px;margin-top:8px}
+
+/* =========================
+   My Page
+========================= */
+.mypage .profile-card{
+  background:#fff;border-radius:16px;box-shadow:var(--shadow);
+  padding:16px 20px;display:grid;grid-template-columns:auto 1fr auto;
+  gap:16px;align-items:center;margin-bottom:20px
+}
+.mypage .avatar{
+  width:64px;height:64px;border-radius:50%;overflow:hidden;background:#d9eee5;color:var(--brand);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px
+}
+.mypage .avatar img{width:100%;height:100%;object-fit:cover}
+.mypage .nickname{font-size:22px;margin:0 0 4px}
+.mypage .meta{color:#666;font-size:14px}
+.mypage .profile-text{margin-top:6px;color:#555}
+.mypage .actions{margin-top:10px;display:flex;gap:10px;flex-wrap:wrap}
+.mypage .stats{list-style:none;margin:0;padding:0;display:flex;gap:16px}
+.mypage .stats li{color:#666;font-size:12px;text-align:center}
+.mypage .stats li span{display:block;font-size:18px;font-weight:800;color:var(--brand)}
+.mypage .section-title{font-size:18px;margin:12px 0}
+
+/* 出品カード（高さ揃え版） */
+.mypage .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.mypage .card{ background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden; transition:transform .15s,box-shadow .2s;display:flex; }
+.mypage .card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08)}
+.mypage .card > a{display:flex;flex-direction:column;height:100%;width:100%}
+.mypage .card img{ width:100%;aspect-ratio:4/3;object-fit:cover;display:block; }
+.mypage .card-body{display:flex;flex-direction:column;gap:6px;padding:12px;flex:1}
+.mypage .badge{display:inline-block;background:#f1d7aa;color:#555;font-size:12px;border-radius:12px;padding:4px 8px;margin-bottom:6px}
+.mypage .title{ font-size:16px;margin:0; display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:40px; }
+.mypage .muted{color:#888;font-size:12px;margin-top:auto}
+.mypage .empty{color:#666;background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:16px}
+
+/* =========================
+   DM page
+========================= */
+.dm{ height:calc(100vh - 72px);display:grid;grid-template-rows:auto 1fr auto;gap:12px; }
+.dm-header{ background:#fff;border-radius:16px;box-shadow:var(--shadow); padding:12px 16px;display:flex;justify-content:space-between;align-items:center }
+.dm-header .subtitle{display:block;color:#888;font-size:12px}
+.dm-thread{ background:#f7faf8;border-radius:16px;box-shadow:var(--shadow); padding:16px;overflow:auto }
+.bubble{ max-width:70%;margin:8px 0;padding:10px 12px;border-radius:14px; background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06) }
+.bubble.mine{margin-left:auto;background:#d9eee5}
+.bubble.theirs{margin-right:auto;background:#fff}
+.bubble .meta{display:flex;gap:8px;align-items:baseline;margin-bottom:4px}
+.bubble .name{color:var(--brand);font-weight:700;font-size:12px}
+.bubble .time{color:#999;font-size:11px}
+.bubble .text{margin-top:4px;white-space:pre-wrap;word-break:break-word}
+.bubble .img{ max-width:300px;max-height:300px;width:auto;height:auto;border-radius:10px;margin-top:4px }
+.bubble .ops{margin-top:6px;text-align:right}
+.btn-small{padding:6px 10px;border-radius:10px}
+.dm-composer{ position:sticky;bottom:0;z-index:10;background:#fff;border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.08);padding:10px; padding-bottom:calc(10px + env(safe-area-inset-bottom)) }
+.composer-form{display:flex;gap:8px;align-items:center}
+.composer-form input[type="text"]{ flex:1;border:1px solid #dcdcdc;border-radius:10px;padding:10px 12px;font-size:14px;min-height:44px }
+.composer-form .file{ cursor:pointer;width:42px;height:42px;border-radius:10px; display:flex;align-items:center;justify-content:center;background:#f2f6f4 }
+.composer-form .file input{display:none}
+@media (max-width:640px){ .bubble{max-width:86%} .dm{height:calc(100vh - 64px)} }
+
+/* =========================
+   How to use
+========================= */
+.howto .howto-hero{ background:#fff;border-radius:16px;box-shadow:var(--shadow); padding:20px;margin-bottom:20px;text-align:center }
+.howto .howto-hero h1{font-size:26px;margin-bottom:6px}
+.howto .howto-hero .lead{color:#666;max-width:720px;margin:0 auto 12px}
+.howto .hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.howto .section-title{font-size:18px;margin:12px 0}
+.howto .steps .step-grid{ display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px;margin-top:10px }
+.howto .step-card{ background:#fff;border-radius:16px;box-shadow:var(--shadow); padding:14px 14px 16px;position:relative }
+.howto .step-card .num{ position:absolute;left:12px;top:12px;width:28px;height:28px;border-radius:50%; background:#d9eee5;color:var(--brand);font-weight:800;display:flex;align-items:center;justify-content:center }
+.howto .step-card h3{margin:6px 0 6px 38px;font-size:16px}
+.howto .step-card p{margin-left:38px;color:#555;font-size:14px}
+.howto .tips .tips-list{ background:#fff;border-radius:16px;box-shadow:var(--shadow); padding:14px;display:grid;gap:8px }
+.howto .tips .tips-list li{list-style:none;display:flex;gap:8px;align-items:flex-start;color:#444}
+.howto .tips .tips-list span{font-size:18px;line-height:1.2}
+.howto .faq .qa{ background:#fff;border-radius:12px;box-shadow:var(--shadow); padding:12px 14px;margin:10px 0 }
+.howto .faq .qa>summary{cursor:pointer;font-weight:700;color:var(--brand);list-style:none}
+.howto .faq .qa>summary::-webkit-details-marker{display:none}
+.howto .faq .qa .a{margin-top:8px;color:#555}
+.howto .howto-cta{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+
+/* =========================
+   Responsive (header tweaks)
+========================= */
+@media (max-width:768px){
+  .header-inner{flex-wrap:wrap}
+  .site-logo{flex:1 0 100%}
+  .site-nav ul{gap:12px;flex-wrap:wrap}
+}

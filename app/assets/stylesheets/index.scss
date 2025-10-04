@@ -1,0 +1,254 @@
+:root {
+  --bg-color: #fdfaf5;
+  --accent-color: #bce0d0;
+  --accent-hover: #a0d1c0;
+  --text-color: #333;
+  --muted-color: #555;
+  --light-color: #999;
+  --tag-bg: #e4f1ea;
+  --tag-checked: #a0d1c0;
+  --card-bg: #fff;
+  --card-shadow: rgba(0,0,0,0.05);
+  --badge-bg: #f1d7aa;
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: 'Yu Gothic', sans-serif;
+  color: var(--text-color);
+  margin: 0;
+  padding: 0 16px;
+  line-height: 1.6;
+}
+
+/* ヘッダー風タイトル */
+h2 {
+  text-align: center;
+  padding: 30px 0 10px;
+  font-size: 28px;
+  color: #444;
+}
+
+/* 検索フォーム */
+form {
+  background-color: var(--card-bg);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px var(--card-shadow);
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+form h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+form input[type="text"] {
+  padding: 12px 20px;
+  width: 90%;
+  max-width: 500px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  margin-bottom: 20px;
+  font-size: 15px;
+
+  background-image: url('/assets/search-icon.svg'); /* 適宜変更 */
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  padding-left: 40px;
+}
+
+/* タグ部分 */
+form h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+form li {
+  display: inline-block;
+  margin: 5px;
+  list-style: none;
+}
+
+form input[type="checkbox"] {
+  display: none;
+}
+
+form label {
+  background-color: var(--tag-bg);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* チェック時のタグ視認性アップ */
+form input[type="checkbox"]:checked + label {
+  background-color: var(--tag-checked);
+  color: white;
+  font-weight: bold;
+}
+
+form label:hover {
+  background-color: #cce4d8;
+}
+
+/* 検索ボタン */
+input[type="submit"] {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--accent-hover);
+}
+
+/* 新規投稿リンク */
+a[href*="new_student"] {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 10px 16px;
+  background-color: var(--badge-bg);
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+/* 出品カード一覧 */
+.students-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+}
+
+/* 出品カード */
+.student {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--card-shadow);
+  padding: 16px;
+  width: 240px;
+  text-align: center;
+  position: relative;
+}
+
+.student img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.student .badge {
+  display: inline-block;
+  background-color: var(--badge-bg);
+  color: var(--muted-color);
+  font-size: 12px;
+  border-radius: 12px;
+  padding: 4px 8px;
+  margin-bottom: 6px;
+}
+
+/* 出品カード内リンク */
+.student a {
+  display: inline-block;
+  margin: 4px;
+  font-size: 14px;
+  color: #00796b;
+  text-decoration: none;
+}
+
+.student a:hover {
+  text-decoration: underline;
+}
+
+/* テキスト情報 */
+.student p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: var(--muted-color);
+}
+
+.student .time {
+  font-size: 12px;
+  color: var(--light-color);
+}
+
+/* いいねボタン */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.7;
+  transform: scale(1.05);
+}
+
+/* 削除ボタン用スタイル */
+.button-danger {
+  background-color: #e57373;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.button-danger:hover {
+  background-color: #d32f2f;
+}
+
+/* いいねボタン共通 */
+.like-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fce4ec; /* 薄ピンク */
+  color: #e91e63;            /* ハート色 */
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-top: 10px;
+}
+
+/* ホバー時のアニメーション */
+.like-button:hover {
+  background-color: #f8bbd0;
+  transform: scale(1.1);
+}
+
+/* いいね済み（赤背景・白ハート） */
+.like-button.liked {
+  background-color: #e91e63;
+  color: white;
+}
