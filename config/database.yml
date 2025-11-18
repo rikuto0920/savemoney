@@ -17,4 +17,4 @@ production:
   <<: *default
   adapter: postgresql # 追加
   encoding: unicode # 追加
-  url: <%= ENV["DATABASE_URL"] %> # 追加
+  url: <%= ENV["postgresql://neondb_owner:npg_M9w6TBzjHlVd@ep-still-mud-a1xnoga3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"] %> # 追加

@@ -1,18 +1,18 @@
 development:
-  cloud_name: <%= ENV["CLOUDINARY_CLOUD_NAME"] %>
-  api_key:    <%= ENV["CLOUDINARY_API_KEY"] %>
-  api_secret: <%= ENV["CLOUDINARY_API_SECRET"] %>
+  cloud_name: <%= ENV["dqieuo32r"] %>
+  api_key:    <%= ENV["135196661545262"] %>
+  api_secret: <%= ENV["Lzvkakrkd54q02fSNEoik4IygkU"] %>
   enhance_image_tag: true
   static_file_support: false
 production:
-  cloud_name: <%= ENV["CLOUDINARY_CLOUD_NAME"] %>
-  api_key:    <%= ENV["CLOUDINARY_API_KEY"] %>
-  api_secret: <%= ENV["CLOUDINARY_API_SECRET"] %>
+  cloud_name: <%= ENV["dqieuo32r"] %>
+  api_key:    <%= ENV["135196661545262"] %>
+  api_secret: <%= ENV["Lzvkakrkd54q02fSNEoik4IygkU"] %>
   enhance_image_tag: true
   static_file_support: false
 test:
-  cloud_name: <%= ENV["CLOUDINARY_CLOUD_NAME"] %>
-  api_key:    <%= ENV["CLOUDINARY_API_KEY"] %>
-  api_secret: <%= ENV["CLOUDINARY_API_SECRET"] %>
+  cloud_name: <%= ENV["dqieuo32r"] %>
+  api_key:    <%= ENV["135196661545262"] %>
+  api_secret: <%= ENV["Lzvkakrkd54q02fSNEoik4IygkU"] %>
   enhance_image_tag: true
   static_file_support: false
